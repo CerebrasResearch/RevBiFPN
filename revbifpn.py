@@ -53,7 +53,7 @@ def stochastic_depth_fn(
 ):
     assert 0.0 < p < 1.0, f"drop probability has to be between 0 and 1, but got {p}"
     assert mode in ["batch", "row"], f"mode has to be either 'batch' or 'row', but got {mode}"
-    
+
     if not training or p == 0.0:
         # inference mode
         return x
@@ -133,7 +133,7 @@ class ConvNormAct(nn.Module):
             groups=groups,
             bias=conv_bias,
         )
-        
+
         self.norm = None
         if norm:
             self.norm = norm_fn(out_channels, **norm_kwargs)
@@ -179,7 +179,7 @@ class MBConvBlock(nn.Module):
         se_sig_act: nn.Module = nn.Hardsigmoid,
     ):
         super().__init__()
-        
+
         # skip connection
         if id_skip:
             assert stride == 1
@@ -383,12 +383,12 @@ class ClassHead(nn.Module):
 
         if self.final_conv is not None:
             out = self.final_conv(out)
-        
+
         out = self.avgpool(out)
-        
+
         if self.dropout is not None:
             out = self.dropout(out)
-        
+
         return self.fc(out)
 
 
