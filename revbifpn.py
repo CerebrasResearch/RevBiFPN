@@ -969,7 +969,7 @@ if __name__ == "__main__":
             assert params == total_params, f"total_params: {total_params}, profiled params: {params}"
             print(f"Model uses {int(macs)} MACs and has {int(params)} parameters.")
 
-            # Vitaliy - for me this outputs:
+            # REDACTED - for me this outputs:
             # Note: revbifpn_s0 is pretrained using an input image size of 224.
             # Model uses 308039716 MACs and has 3419196 parameters.
             # Note: revbifpn_s0 is pretrained using an input image size of 224.

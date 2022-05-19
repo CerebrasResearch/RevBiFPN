@@ -52,7 +52,7 @@ Generally speaking, we use the HRNet training configurations but replace the HRN
 To cite this work use:
 TODO
 ````
-@article{chiley2020revbifpn,
+@article{REDACTED2020revbifpn,
   title={RevBiFPN: The Fully Reversible Bidirectional Feature Pyramid Network},
   author={REDACTED},
   year={2022}
