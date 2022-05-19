@@ -1,6 +1,6 @@
 """
 Released under BSD 3-Clause License,
-Copyright (c) 2022 Cerebras Systems Inc.
+Copyright (c) 2022 REDACTED.
 All rights reserved.
 
 RevStructs: Reversible structures for use in PyTorch

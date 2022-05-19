@@ -54,7 +54,7 @@ TODO
 ````
 @article{chiley2020revbifpn,
   title={RevBiFPN: The Fully Reversible Bidirectional Feature Pyramid Network},
-  author={Chiley, Vitaliy and Gupta, Abhay and Thangarasa, Vithursan and Samar, Anshul and Hestness, Joel and DeCoste, Dennis},
+  author={REDACTED},
   year={2022}
 }
 ````

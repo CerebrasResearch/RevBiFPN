@@ -1,11 +1,11 @@
 """
 Released under BSD 3-Clause License,
-Copyright (c) 2022 Cerebras Systems Inc.
+Copyright (c) 2022 REDACTED.
 All rights reserved.
 
 MIT License
 Copyright (c) 2018 Jörn Jacobsen
-From: https://github.com/jhjacobsen/pytorch-i-revnet/blob/master/models/model_utils.py
+Adapted from: https://github.com/jhjacobsen/pytorch-i-revnet/blob/master/models/model_utils.py
 """
 
 import torch
