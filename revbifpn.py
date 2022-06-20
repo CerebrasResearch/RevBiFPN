@@ -687,43 +687,43 @@ class RevBiFPN(nn.Module):
         return x
 
 
+ckpt_root = "CHECKPOINT_ROOT/revbifpn"
 arch_params = {
     "revbifpn_s0": {
-        "model_ckpt": "/cb/ml/computer_vision/permanent_model_checkpoints/revbifpn/revbifpn_s0.pth.tar",
+        "model_ckpt": f"{ckpt_root}/revbifpn_s0.pth.tar",
         "img_size": 224, "width_multplier": 1,
         "num_ext_layers": 2, "head_dropout": 0.25, "stochastic_depth": None
     },
     "revbifpn_s1": {
-        "model_ckpt": "/cb/ml/computer_vision/permanent_model_checkpoints/revbifpn/revbifpn_s1.pth.tar",
+        "model_ckpt": f"{ckpt_root}/revbifpn_s1.pth.tar",
         "img_size": 256, "width_multplier": 4 / 3,
         "num_ext_layers": 2, "head_dropout": 0.25, "stochastic_depth": None
     },
     "revbifpn_s2": {
-        "model_ckpt": "/cb/ml/computer_vision/permanent_model_checkpoints/revbifpn/revbifpn_s2.pth.tar",
+        "model_ckpt": f"{ckpt_root}/revbifpn_s2.pth.tar",
         "img_size": 256, "width_multplier": 2,
         "num_ext_layers": 2, "head_dropout": 0.3, "stochastic_depth": None
     },
     "revbifpn_s3": {
-        "model_ckpt": "/cb/ml/computer_vision/permanent_model_checkpoints/revbifpn/revbifpn_s3.pth.tar",
+        "model_ckpt": f"{ckpt_root}/revbifpn_s3.pth.tar",
         "img_size": 288, "width_multplier": 8 / 3,
         "num_ext_layers": 3, "head_dropout": 0.3, "stochastic_depth": 0.05
     },
     "revbifpn_s4": {
-        "model_ckpt": "/cb/ml/computer_vision/permanent_model_checkpoints/revbifpn/revbifpn_s4.pth.tar",
+        "model_ckpt": f"{ckpt_root}/revbifpn_s4.pth.tar",
         "img_size": 320, "width_multplier": 4,
         "num_ext_layers": 4, "head_dropout": 0.4, "stochastic_depth": 0.1
     },
     "revbifpn_s5": {
-        "model_ckpt": "/cb/ml/computer_vision/permanent_model_checkpoints/revbifpn/revbifpn_s5.pth.tar",
+        "model_ckpt": f"{ckpt_root}/revbifpn_s5.pth.tar",
         "img_size": 352, "width_multplier": 16 / 3,
         "num_ext_layers": 4, "head_dropout": 0.4, "stochastic_depth": 0.1
     },
     "revbifpn_s6": {
-        "model_ckpt": "/cb/ml/computer_vision/permanent_model_checkpoints/revbifpn/revbifpn_s6.pth.tar",
+        "model_ckpt": f"{ckpt_root}/revbifpn_s6.pth.tar",
         "img_size": 352, "width_multplier": 20 / 3,
         "num_ext_layers": 5, "head_dropout": 0.6, "stochastic_depth": 0.3
     },
-}
 
 
 default_args = {
