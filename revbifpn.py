@@ -951,7 +951,7 @@ if __name__ == "__main__":
             # different arg examples
             args = {}
             if gen_model == RevBiFPN_S: args["arch"] = arch
-            args["pretrained"] = True
+            # args["pretrained"] = True
             # args["strict"] = False          # if neck or head is removed, cant load strict ckpt
             # args["head_channels"] = None    # remove neck
             # args["classes"] = None          # remove head
