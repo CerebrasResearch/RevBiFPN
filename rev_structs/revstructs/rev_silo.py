@@ -135,6 +135,9 @@ class G_RevAdditiveCouplingSilo(RevAdditiveCouplingSilo):
 
 
 class RevResidualSilo(RevOp):
+    """Implements the addative coupling variant of the Reversible Residual Silo (RevSilo) described in the Appendix of
+    `RevBiFPN: The Fully Reversible Bidirectional Feature Pyramid Network <https://arxiv.org/abs/2206.14098>`__.
+    """
     def __init__(
         self,
         f_transform,
@@ -237,7 +240,7 @@ class RevLimResidualSilo(RevOp):
         return self.f.backward_pass(*self.g.backward_pass(y, dy))
 
 
-class RevSilo(RevOp):
+class RevTensorOps(RevOp):
     def __init__(
         self,
         rev_transforms,

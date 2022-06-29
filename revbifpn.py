@@ -18,7 +18,7 @@ from rev_structs.revstructs import (
     RevSpatialDownsample,
     RevResidualSilo,
     RevResidualBlock,
-    RevSilo,
+    RevTensorOps,
     RecomputeSilo,
 )
 
@@ -563,7 +563,7 @@ class RevBiFPN(nn.Module):
         act_fn: nn.Module = nn.Hardswish,
         se_sig_act: nn.Module = nn.Hardsigmoid,
     ):
-        # make RevSilo
+        # make RevTensorOps
         blk_args = {}
         blk_args["stochastic_depth"] = stochastic_depth
         blk_args["zero_init"] = zero_init
@@ -590,7 +590,7 @@ class RevBiFPN(nn.Module):
                     g_transform=MBConvBlock(**g_blk_args),
                     disable_rev=disable_rev,
                 )]
-            self.rev_stack.append(RevSilo(xforms, disable_rev=disable_rev,))
+            self.rev_stack.append(RevTensorOps(xforms, disable_rev=disable_rev,))
 
         # create / add Fuse layer using RevResidualSilo
         if new_ch: channels += [new_ch]
@@ -724,6 +724,7 @@ arch_params = {
         "img_size": 352, "width_multplier": 20 / 3,
         "num_ext_layers": 5, "head_dropout": 0.6, "stochastic_depth": 0.3
     },
+}
 
 
 default_args = {
@@ -764,7 +765,8 @@ def _revbifpn_args(
 
 class RevBiFPN_S(RevBiFPN):
     """
-    RevBiFPN model of specicified scale
+    RevBiFPN model of specicified scale X, specified using string `revbifpn_sX` from
+    `RevBiFPN: The Fully Reversible Bidirectional Feature Pyramid Network <https://arxiv.org/abs/2206.14098>`__.
     """
     def __init__(
         self,
@@ -815,8 +817,8 @@ def revbifpn_s0(
     strict: bool = True,
     **kwargs_overrides: Any
 ) -> Tuple[RevBiFPN, int]:
-    r"""RevBiFPN-S0 model from
-    `"RevBiFPN: The Fully Reversible Bidirectional Feature Pyramid Network" <https://arxiv.org/abs/TODO>`_.
+    """RevBiFPN-S0 model from
+    `RevBiFPN: The Fully Reversible Bidirectional Feature Pyramid Network <https://arxiv.org/abs/2206.14098>`__.
 
     Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
@@ -832,8 +834,8 @@ def revbifpn_s1(
     strict: bool = True,
     **kwargs_overrides: Any
 ) -> Tuple[RevBiFPN, int]:
-    r"""RevBiFPN-S1 model from
-    `"RevBiFPN: The Fully Reversible Bidirectional Feature Pyramid Network" <https://arxiv.org/abs/TODO>`_.
+    """RevBiFPN-S1 model from
+    `RevBiFPN: The Fully Reversible Bidirectional Feature Pyramid Network <https://arxiv.org/abs/2206.14098>`__.
 
     Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
@@ -849,8 +851,8 @@ def revbifpn_s2(
     strict: bool = True,
     **kwargs_overrides: Any
 ) -> Tuple[RevBiFPN, int]:
-    r"""RevBiFPN-S2 model from
-    `"RevBiFPN: The Fully Reversible Bidirectional Feature Pyramid Network" <https://arxiv.org/abs/TODO>`_.
+    """RevBiFPN-S2 model from
+    `RevBiFPN: The Fully Reversible Bidirectional Feature Pyramid Network <https://arxiv.org/abs/2206.14098>`__.
 
     Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
@@ -866,8 +868,8 @@ def revbifpn_s3(
     strict: bool = True,
     **kwargs_overrides: Any
 ) -> Tuple[RevBiFPN, int]:
-    r"""RevBiFPN-S3 model from
-    `"RevBiFPN: The Fully Reversible Bidirectional Feature Pyramid Network" <https://arxiv.org/abs/TODO>`_.
+    """RevBiFPN-S3 model from
+    `RevBiFPN: The Fully Reversible Bidirectional Feature Pyramid Network <https://arxiv.org/abs/2206.14098>`__.
 
     Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
@@ -883,8 +885,8 @@ def revbifpn_s4(
     strict: bool = True,
     **kwargs_overrides: Any
 ) -> Tuple[RevBiFPN, int]:
-    r"""RevBiFPN-S4 model from
-    `"RevBiFPN: The Fully Reversible Bidirectional Feature Pyramid Network" <https://arxiv.org/abs/TODO>`_.
+    """RevBiFPN-S4 model from
+    `RevBiFPN: The Fully Reversible Bidirectional Feature Pyramid Network <https://arxiv.org/abs/2206.14098>`__.
 
     Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
@@ -900,8 +902,8 @@ def revbifpn_s5(
     strict: bool = True,
     **kwargs_overrides: Any
 ) -> Tuple[RevBiFPN, int]:
-    r"""RevBiFPN-S5 model from
-    `"RevBiFPN: The Fully Reversible Bidirectional Feature Pyramid Network" <https://arxiv.org/abs/TODO>`_.
+    """RevBiFPN-S5 model from
+    `RevBiFPN: The Fully Reversible Bidirectional Feature Pyramid Network <https://arxiv.org/abs/2206.14098>`__.
 
     Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet
@@ -917,8 +919,8 @@ def revbifpn_s6(
     strict: bool = True,
     **kwargs_overrides: Any
 ) -> Tuple[RevBiFPN, int]:
-    r"""RevBiFPN-S6 model from
-    `"RevBiFPN: The Fully Reversible Bidirectional Feature Pyramid Network" <https://arxiv.org/abs/TODO>`_.
+    """RevBiFPN-S6 model from
+    `RevBiFPN: The Fully Reversible Bidirectional Feature Pyramid Network <https://arxiv.org/abs/2206.14098>`__.
 
     Args:
         pretrained (bool): If True, returns a model pre-trained on ImageNet

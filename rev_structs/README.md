@@ -3,7 +3,7 @@ Reversible Structures
 
 The RevStructs library implements the RevSilo, as well as other reversible structures, in [PyTorch](https://papers.nips.cc/paper/2019/hash/bdbca288fee7f92f2bfa9f7012727740-Abstract.html).
 
-RevSilo is the first bidirectional multi-scale feature fusion module that is invertible.
+RevSilo is the first bidirectional multi-scale feature fusion module that is invertible. For details see [RevBiFPN: The Fully Reversible Bidirectional Feature Pyramid Network](https://arxiv.org/abs/2206.14098).
 
 <p align = "center"><img src="../figures/revsilo.png" width=50% height=50%></p>
 

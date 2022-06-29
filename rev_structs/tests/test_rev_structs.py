@@ -30,7 +30,7 @@ from revstructs import (
     G_RevLimAdditiveCouplingSilo,
     RevLimResidualSilo,
     RevResidualBlock,
-    RevSilo,
+    RevTensorOps,
     RevElementWiseAffine,
     RevElementWiseAffineDiv,
     RevNorm,
@@ -244,7 +244,7 @@ class TestRevStructs(unittest.TestCase):
         
         model = RevSequential([
             RevSpatialDownsample(2),
-            RevSilo([RevResidualBlock(layers[0], layers[1]),],),
+            RevTensorOps([RevResidualBlock(layers[0], layers[1]),],),
         ])
 
         self.base_test(x, model)
@@ -291,7 +291,7 @@ class TestRevStructs(unittest.TestCase):
 
         model = RevSequential([
             RevLimResidualSilo(layers[0], layers[1]),
-            RevSilo([RevResidualBlock(*layers[2:4]), RevResidualBlock(*layers[4:])]),
+            RevTensorOps([RevResidualBlock(*layers[2:4]), RevResidualBlock(*layers[4:])]),
         ])
 
         self.base_test(x, model)
@@ -305,7 +305,7 @@ class TestRevStructs(unittest.TestCase):
 
         model = RevSequential([
             RevLimResidualSilo(layers[0], layers[1]),
-            RevSilo([RevElementWiseAffine(4), RevElementWiseAffine(4)]),
+            RevTensorOps([RevElementWiseAffine(4), RevElementWiseAffine(4)]),
         ])
 
         self.base_test(x, model)

@@ -19,7 +19,7 @@ from .rev_silo import (
     RevLimAdditiveCouplingSilo,
     G_RevLimAdditiveCouplingSilo,
     RevLimResidualSilo,
-    RevSilo,
+    RevTensorOps,
 )
 from .rev_spatial_downsample import RevSpatialDownsample
 from .rev_tensor_ops import RevChunk, RevCat

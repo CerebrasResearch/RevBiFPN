@@ -2,7 +2,7 @@
 RevBiFPN: The Fully Reversible Bidirectional Feature Pyramid Network
 
 ## Introduction
-This is the official code of [RevBiFPN: The Fully Reversible Bidirectional Feature Pyramid Network](https://arxiv.org/abs/TODO) implemented in [PyTorch](https://papers.nips.cc/paper/2019/hash/bdbca288fee7f92f2bfa9f7012727740-Abstract.html).
+This is the official code of [RevBiFPN: The Fully Reversible Bidirectional Feature Pyramid Network](https://arxiv.org/abs/2206.14098) implemented in [PyTorch](https://papers.nips.cc/paper/2019/hash/bdbca288fee7f92f2bfa9f7012727740-Abstract.html).
 RevSilo, the first reversible bidirectional multi-scale feature fusion module (implemented in `./rev_structs`), is used to create the RevBiFPN backbone.
 We augment the RevBiFPN backbone with a classification head to pre-train RevBiFPN-S0 through RevBiFPN-S6 on [ImageNet](https://www-cs-faculty.stanford.edu/groups/vision/documents/ImageNet_CVPR2009.pdf).
 
@@ -17,8 +17,8 @@ The activation cache consumes the majority of the accelerator's memory, limiting
 <p align = "center"><img src="figures/cv_mem_train.png" width=50% height=50%></p>
 
 Networks using reversble recomputation, can recompute the network's hidden activations instead of needing to store them.
-This work is the first to create a fully reversible bidirectional multi-scale feature fusion pyramid network to serve as a drop-in replacement for networks FPN backbones such as EfficientDet and HRNet.
-The figure below shows how, for classification, RevBiFPN significantly outperforms EfficientNet at all scales.
+This work is the first to create a fully reversible bidirectional multi-scale feature fusion pyramid network to serve as a drop-in replacement for FPN backbones such as EfficientDet and HRNet.
+The figure below shows how, for classification, RevBiFPN uses significantly less memory than EfficientNet at all scales.
 For example, RevBiFPN-S6 achieves comparable accuracy to EfficientNet-B7 on ImageNet (84.2% vs 84.3%) while using comparable MACs (38B vs 37B) and 19.8x lesser training memory per sample.
 
 <p align = "center"><img src="figures/macs_vs_mem.png" width=60% height=60%></p>
@@ -54,9 +54,9 @@ Systems using the RevBiFPN backbone, consume considerably less memory for detect
 
 ### Classification
 For classification, we train RevBiFPN using [pytorch-image-models' trian.py](https://github.com/rwightman/pytorch-image-models/blob/master/train.py).
-Hyperparameters can be found in the [paper](https://arxiv.org/abs/TODO).
+Hyperparameters can be found in the [RevBiFPN paper](https://arxiv.org/abs/2206.14098).
 
-Note: running `python revbifpn.py`, will instantiate and produce network MAC / parameter counts for RevBiFPN-S0 through RevBiFPN-S6 (uses [thop](https://pypi.org/project/thop/)).
+Note: running  `python revbifpn.py`, will instantiate and produce network MAC / parameter counts for RevBiFPN-S0 through RevBiFPN-S6 (uses [thop](https://pypi.org/project/thop/)).
 
 ### Detection and Segmentation
 For detection and segmentation we use [MMDetection](https://github.com/open-mmlab/mmdetection).
@@ -64,11 +64,11 @@ HRNet configs are used to fine-tune networks with RevBiFPN backbones.
 
 ## Citation
 To cite this work use:
-TODO
 ````
-@article{chiley2020revbifpn,
+@article{chiley2022revbifpn,
   title={RevBiFPN: The Fully Reversible Bidirectional Feature Pyramid Network},
   author={Chiley, Vitaliy and Thangarasa, Vithursan and Gupta, Abhay and Samar, Anshul and Hestness, Joel and DeCoste, Dennis},
+  journal={arXiv preprint arXiv:2206.14098},
   year={2022}
 }
 ````
