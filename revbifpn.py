@@ -9,6 +9,11 @@ import torch
 from torch import nn
 from typing import Union, List, Any, Tuple
 
+try:
+    from torch.hub import load_state_dict_from_url  # noqa: 401
+except ImportError:
+    from torch.utils.model_zoo import load_url as load_state_dict_from_url  # noqa: 401
+
 # add file dir to path
 # alternatively pip install revstructs and `from revstructs import *`
 import os, sys
@@ -687,40 +692,47 @@ class RevBiFPN(nn.Module):
         return x
 
 
-ckpt_root = "CHECKPOINT_ROOT/revbifpn"
+model_dir = "/tmp/model_ckpts/revbifpn"  # TODO: change to suit your needs
 arch_params = {
     "revbifpn_s0": {
-        "model_ckpt": f"{ckpt_root}/revbifpn_s0.pth.tar",
+        "model_url": "https://cerebras-public.s3.us-west-2.amazonaws.com/revbifpn/revbifpn_s0.pth.tar",
+        "model_ckpt": f"{model_dir}/revbifpn_s0.pth.tar",
         "img_size": 224, "width_multplier": 1,
         "num_ext_layers": 2, "head_dropout": 0.25, "stochastic_depth": None
     },
     "revbifpn_s1": {
-        "model_ckpt": f"{ckpt_root}/revbifpn_s1.pth.tar",
+        "model_url": "https://cerebras-public.s3.us-west-2.amazonaws.com/revbifpn/revbifpn_s1.pth.tar",
+        "model_ckpt": f"{model_dir}/revbifpn_s1.pth.tar",
         "img_size": 256, "width_multplier": 4 / 3,
         "num_ext_layers": 2, "head_dropout": 0.25, "stochastic_depth": None
     },
     "revbifpn_s2": {
-        "model_ckpt": f"{ckpt_root}/revbifpn_s2.pth.tar",
+        "model_url": "https://cerebras-public.s3.us-west-2.amazonaws.com/revbifpn/revbifpn_s2.pth.tar",
+        "model_ckpt": f"{model_dir}/revbifpn_s2.pth.tar",
         "img_size": 256, "width_multplier": 2,
         "num_ext_layers": 2, "head_dropout": 0.3, "stochastic_depth": None
     },
     "revbifpn_s3": {
-        "model_ckpt": f"{ckpt_root}/revbifpn_s3.pth.tar",
+        "model_url": "https://cerebras-public.s3.us-west-2.amazonaws.com/revbifpn/revbifpn_s3.pth.tar",
+        "model_ckpt": f"{model_dir}/revbifpn_s3.pth.tar",
         "img_size": 288, "width_multplier": 8 / 3,
         "num_ext_layers": 3, "head_dropout": 0.3, "stochastic_depth": 0.05
     },
     "revbifpn_s4": {
-        "model_ckpt": f"{ckpt_root}/revbifpn_s4.pth.tar",
+        "model_url": "https://cerebras-public.s3.us-west-2.amazonaws.com/revbifpn/revbifpn_s4.pth.tar",
+        "model_ckpt": f"{model_dir}/revbifpn_s4.pth.tar",
         "img_size": 320, "width_multplier": 4,
         "num_ext_layers": 4, "head_dropout": 0.4, "stochastic_depth": 0.1
     },
     "revbifpn_s5": {
-        "model_ckpt": f"{ckpt_root}/revbifpn_s5.pth.tar",
+        "model_url": "https://cerebras-public.s3.us-west-2.amazonaws.com/revbifpn/revbifpn_s5.pth.tar",
+        "model_ckpt": f"{model_dir}/revbifpn_s5.pth.tar",
         "img_size": 352, "width_multplier": 16 / 3,
         "num_ext_layers": 4, "head_dropout": 0.4, "stochastic_depth": 0.1
     },
     "revbifpn_s6": {
-        "model_ckpt": f"{ckpt_root}/revbifpn_s6.pth.tar",
+        "model_url": "https://cerebras-public.s3.us-west-2.amazonaws.com/revbifpn/revbifpn_s6.pth.tar",
+        "model_ckpt": f"{model_dir}/revbifpn_s6.pth.tar",
         "img_size": 352, "width_multplier": 20 / 3,
         "num_ext_layers": 5, "head_dropout": 0.6, "stochastic_depth": 0.3
     },
@@ -763,6 +775,23 @@ def _revbifpn_args(
     return model_args
 
 
+def _get_state_dict(arch_params, arch, progress, map_location=None):
+    state_dict = None
+    try:
+        state_dict = torch.load(
+            arch_params[arch]["model_ckpt"],
+            map_location=map_location,
+        )
+    except:
+        model_dir, _ = os.path.split(arch_params[arch]["model_ckpt"])
+        state_dict = load_state_dict_from_url(
+            url=arch_params[arch]["model_url"],
+            model_dir=model_dir,
+            map_location=map_location,
+            progress=progress)
+    return state_dict
+
+
 class RevBiFPN_S(RevBiFPN):
     """
     RevBiFPN model of specicified scale X, specified using string `revbifpn_sX` from
@@ -772,6 +801,7 @@ class RevBiFPN_S(RevBiFPN):
         self,
         arch: str,
         pretrained: bool = False,
+        progress: bool = False,
         strict: bool = True,
         **kwargs_overrides
     ):
@@ -782,16 +812,15 @@ class RevBiFPN_S(RevBiFPN):
         if pretrained:
             if "norm_fn" in model_args:
                 assert model_args["norm_fn"] in (nn.BatchNorm2d, nn.SyncBatchNorm)
-            state_dict = torch.load(
-                arch_params[arch]["model_ckpt"],
-                map_location=next(self.parameters()).device,
-            )
-            self.load_state_dict(state_dict, strict=strict)
+            self.load_state_dict(
+                _get_state_dict(arch_params, arch, progress, next(self.parameters()).device),
+                strict=strict)
 
 
 def _revbifpn(
     arch: str,
     pretrained: bool = False,
+    progress: bool = False,
     strict: bool = True,
     **kwargs_overrides: Any
 ) -> RevBiFPN:
@@ -804,16 +833,16 @@ def _revbifpn(
     if pretrained:
         if "norm_fn" in model_args:
             assert model_args["norm_fn"] in (nn.BatchNorm2d, nn.SyncBatchNorm)
-        state_dict = torch.load(
-            arch_params[arch]["model_ckpt"],
-            map_location=next(model.parameters()).device,
-        )
-        model.load_state_dict(state_dict, strict=strict)
+        model.load_state_dict(
+                _get_state_dict(arch_params, arch, progress, next(model.parameters()).device),
+                strict=strict)
+
     return model
 
 
 def revbifpn_s0(
     pretrained: bool = False,
+    progress: bool = False,
     strict: bool = True,
     **kwargs_overrides: Any
 ) -> Tuple[RevBiFPN, int]:
@@ -826,11 +855,12 @@ def revbifpn_s0(
             setting head_channels=None instantiates a model without a neck
             setting classes=None instantiates a model without a head
     """
-    return _revbifpn("revbifpn_s0", pretrained, strict, **kwargs_overrides)
+    return _revbifpn("revbifpn_s0", pretrained, progress, strict, **kwargs_overrides)
 
 
 def revbifpn_s1(
     pretrained: bool = False,
+    progress: bool = False,
     strict: bool = True,
     **kwargs_overrides: Any
 ) -> Tuple[RevBiFPN, int]:
@@ -843,11 +873,12 @@ def revbifpn_s1(
             setting head_channels=None instantiates a model without a neck
             setting classes=None instantiates a model without a head
     """
-    return _revbifpn("revbifpn_s1", pretrained, strict, **kwargs_overrides)
+    return _revbifpn("revbifpn_s1", pretrained, progress, strict, **kwargs_overrides)
 
 
 def revbifpn_s2(
     pretrained: bool = False,
+    progress: bool = False,
     strict: bool = True,
     **kwargs_overrides: Any
 ) -> Tuple[RevBiFPN, int]:
@@ -860,11 +891,12 @@ def revbifpn_s2(
             setting head_channels=None instantiates a model without a neck
             setting classes=None instantiates a model without a head
     """
-    return _revbifpn("revbifpn_s2", pretrained, strict, **kwargs_overrides)
+    return _revbifpn("revbifpn_s2", pretrained, progress, strict, **kwargs_overrides)
 
 
 def revbifpn_s3(
     pretrained: bool = False,
+    progress: bool = False,
     strict: bool = True,
     **kwargs_overrides: Any
 ) -> Tuple[RevBiFPN, int]:
@@ -877,11 +909,12 @@ def revbifpn_s3(
             setting head_channels=None instantiates a model without a neck
             setting classes=None instantiates a model without a head
     """
-    return _revbifpn("revbifpn_s3", pretrained, strict, **kwargs_overrides)
+    return _revbifpn("revbifpn_s3", pretrained, progress, strict, **kwargs_overrides)
 
 
 def revbifpn_s4(
     pretrained: bool = False,
+    progress: bool = False,
     strict: bool = True,
     **kwargs_overrides: Any
 ) -> Tuple[RevBiFPN, int]:
@@ -894,11 +927,12 @@ def revbifpn_s4(
             setting head_channels=None instantiates a model without a neck
             setting classes=None instantiates a model without a head
     """
-    return _revbifpn("revbifpn_s4", pretrained, strict, **kwargs_overrides)
+    return _revbifpn("revbifpn_s4", pretrained, progress, strict, **kwargs_overrides)
 
 
 def revbifpn_s5(
     pretrained: bool = False,
+    progress: bool = False,
     strict: bool = True,
     **kwargs_overrides: Any
 ) -> Tuple[RevBiFPN, int]:
@@ -911,11 +945,12 @@ def revbifpn_s5(
             setting head_channels=None instantiates a model without a neck
             setting classes=None instantiates a model without a head
     """
-    return _revbifpn("revbifpn_s5", pretrained, strict, **kwargs_overrides)
+    return _revbifpn("revbifpn_s5", pretrained, progress, strict, **kwargs_overrides)
 
 
 def revbifpn_s6(
     pretrained: bool = False,
+    progress: bool = False,
     strict: bool = True,
     **kwargs_overrides: Any
 ) -> Tuple[RevBiFPN, int]:
@@ -929,7 +964,7 @@ def revbifpn_s6(
                 Note pretrained head is invalid without neck
             setting classes=None instantiates a model without a head
     """
-    return _revbifpn("revbifpn_s6", pretrained, strict, **kwargs_overrides)
+    return _revbifpn("revbifpn_s6", pretrained, progress, strict, **kwargs_overrides)
 
 
 model_fns = {

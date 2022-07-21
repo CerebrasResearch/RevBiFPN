@@ -40,15 +40,19 @@ Systems using the RevBiFPN backbone, consume considerably less memory for detect
 </table>
 
 ### ImageNet models
-| Model       | #Params | Res  | GMACs | top-1 acc |
-|        :--: |    :--: | :--: |  :--: |      :--: |
-| RevBiFPN-S0 |   3.42M | 224  |  0.31 |     72.8% |
-| RevBiFPN-S1 |   5.11M | 256  |  0.62 |     75.9% |
-| RevBiFPN-S2 |  10.6M  | 256  |  1.37 |     79.0% |
-| RevBiFPN-S3 |  19.6M  | 288  |  3.33 |     81.1% |
-| RevBiFPN-S4 |  48.7M  | 320  | 10.6  |     83.0% |
-| RevBiFPN-S5 |  82.0M  | 352  | 21.8  |     83.7% |
-| RevBiFPN-S6 | 142.3M  | 352  | 38.1  |     84.2% |
+| Model       | #Params | Res  | GMACs | top-1 acc | model ckpt sha256 with ckpt hyperlink |
+|        :--: |    :--: | :--: |  :--: |      :--: |                                  :--: |
+| RevBiFPN-S0 |   3.42M | 224  |  0.31 |     72.8% | [a9ee012a2670003ea18deca1afaed7c1323ffaafc83b0a30874d262bf2403cfa](https://cerebras-public.s3.us-west-2.amazonaws.com/revbifpn/revbifpn_s0.pth.tar) |
+| RevBiFPN-S1 |   5.11M | 256  |  0.62 |     75.9% | [584b0c3ea677ac5eff6c0f54b4b683973e7533bfde334155cd770aef041673c4](https://cerebras-public.s3.us-west-2.amazonaws.com/revbifpn/revbifpn_s1.pth.tar) |
+| RevBiFPN-S2 |  10.6M  | 256  |  1.37 |     79.0% | [62ff9387b498550d31e248742a002be22cb29e800cd387ec9c93b6da7418dcc8](https://cerebras-public.s3.us-west-2.amazonaws.com/revbifpn/revbifpn_s2.pth.tar) |
+| RevBiFPN-S3 |  19.6M  | 288  |  3.33 |     81.1% | [1695576b09ee9fc584df616abaf0762188122468825cc92b5abfeec63b609d25](https://cerebras-public.s3.us-west-2.amazonaws.com/revbifpn/revbifpn_s3.pth.tar) |
+| RevBiFPN-S4 |  48.7M  | 320  | 10.6  |     83.0% | [61d7b65524000bb147aac26ad559906a2380e55a499d9d420063cc2b9e2ef42a](https://cerebras-public.s3.us-west-2.amazonaws.com/revbifpn/revbifpn_s4.pth.tar) |
+| RevBiFPN-S5 |  82.0M  | 352  | 21.8  |     83.7% | [d7713a25c7f62bf4b9ebaa2693a7b6896e7965c6647cbd1d98eddeae8b74cdc3](https://cerebras-public.s3.us-west-2.amazonaws.com/revbifpn/revbifpn_s5.pth.tar) |
+| RevBiFPN-S6 | 142.3M  | 352  | 38.1  |     84.2% | [31f355d5fb54610ad9051d08d0ec10bb0d33f40c0936352cb863b9f9a3d4fa09](https://cerebras-public.s3.us-west-2.amazonaws.com/revbifpn/revbifpn_s6.pth.tar) |
+
+Pretrained model loading assumes `/tmp/model_ckpts/revbifpn/revbifpn_s#.pth.tar` file structure.
+Modify `model_dir = "/tmp/model_ckpts/revbifpn"` in `revbifpn.py` if necissary.
+When instantiating model, setting `pretrained = True` will download associated model into the aformentioned dir.
 
 ## Training
 
